@@ -1,0 +1,59 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node kg/hooks/session-start.js \"claude-code.db\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node kg/hooks/post-compact.js \"claude-code.db\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node kg/hooks/auto-recall.js \"claude-code.db\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node kg/hooks/search-enforcer.js \"claude-code.db\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          { 
+            "type": "command", 
+            "command": "node kg/hooks/web-reply-guard.mjs", 
+            "timeout": 10 
+          }
+        ]
+      }
+    ]
+  }
+}

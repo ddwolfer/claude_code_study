@@ -1,0 +1,49 @@
+# Dependencies — each sub-package (kg/, mcp-gemini-video/) installs its own
+node_modules/
+
+# Knowledge graph database — a binary that gets rewritten constantly (bad fit
+# for git). It's your portable "talent-pool master": back it up / merge it with
+# kg/scripts/merge-db.js rather than committing it. Delete these lines if you
+# really do want the knowledge version-controlled here.
+*.db-wal
+*.db-shm
+
+# Secrets — never commit the Gemini key (it lives in the GEMINI_API_KEY env var;
+# .env.example stays as the template)
+.env
+**/.env
+
+# Course material — for THIS course it's the cholf5《Claude Code in Action》中文版
+# (a small, PUBLIC community translation: github.com/cholf5/claude-code-in-action).
+# It's tiny text/HTML (~77KB), so we TRACK both the pristine clone (course/) and the
+# generated chapter/lesson tree (Claude Code 實戰_課程講義/) — that way the cockpit's
+# lesson catalog works straight after `git clone`, no manual download needed.
+# (Images are hot-linked from the course's public S3 CDN, so no media lands here.)
+
+# Lesson digests + rewritten web-notes (notes/) — INTENTIONALLY TRACKED so the
+# re-read caches sync across machines (Windows ↔ MacBook). These contain verbatim
+# copyrighted course slide text (gemini_digest_pdf OCR).
+# ⚠️ This is ONLY acceptable because the repo is PRIVATE. If it is ever made
+#    PUBLIC, re-add `notes/` to this file FIRST (copyright) before pushing.
+
+# Safety net: never commit lecture media wherever it lands (any project layout)
+*.mp4
+*.mov
+*.mkv
+*.webm
+*.srt
+
+# Python bytecode (from the Whisper transcribe script)
+__pycache__/
+*.pyc
+
+*.zip
+
+# dual-plan rendered HTML — regenerated from plan.md by render.py; the .md is
+# canonical and stays in git, the .html (and history/) is a local view.
+plans/**/plan.html
+
+# study-web runtime state (last lesson + chat history) — machine-local
+study-web/state.json
+
+kg/viewer/graph-data.json

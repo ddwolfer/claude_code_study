@@ -1,0 +1,28 @@
+{
+  "mcpServers": {
+    "knowledge-graph": {
+      "command": "node",
+      "args": [
+        "kg/main.js",
+        "--db",
+        "kg/claude-code.db"
+      ]
+    },
+    "gemini-video": {
+      "command": "node",
+      "args": [
+        "mcp-gemini-video/server.js"
+      ],
+      "env": {
+        "GEMINI_API_KEY": "${GEMINI_API_KEY}",
+        "LESSONS_DIR": "Claude Code 實戰_課程講義"
+      }
+    },
+    "study-web": {
+      "command": "node",
+      "args": [
+        "study-web/server.js"
+      ]
+    }
+  }
+}

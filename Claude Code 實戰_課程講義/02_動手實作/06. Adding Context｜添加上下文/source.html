@@ -1,0 +1,117 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>添加上下文 | Claude Code 实战课程</title>
+    <script src="head-meta.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="index.html">Claude Code 实战课程（中文）</a>
+        <span class="subtitle">第 06 节 · 添加上下文</span>
+      </div>
+    </header>
+
+<div class="layout">
+<aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+
+    <nav class="lesson-nav container"></nav>
+
+    <main class="container content">
+      <div class="content-card">
+        <h1>添加上下文</h1>
+        <div class="lesson-meta">
+          原文链接：
+          <a href="https://anthropic.skilljar.com/claude-code-in-action/303241"
+            >https://anthropic.skilljar.com/claude-code-in-action/303241</a
+          >
+          <span class="tag">视频 + 讲义</span>
+        </div>
+        <div class="content-body">
+          <p>
+            在用 Claude 处理编程项目时，上下文管理非常关键。你的项目可能有几十甚至上百个文件，但 Claude
+            只需要与任务相关的部分。过多无关上下文反而会降低 Claude 的表现，因此学会引导它定位关键文件与文档非常重要。
+          </p>
+          <img
+            src="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2Fa46l9irobhg0f5webscixp0bs%2Fpublic%2F1750967940%2F004_-_Adding_Context_02.1750967940092.png"
+            alt="上下文管理示意"
+          />
+
+          <h2>/init 命令</h2>
+          <p>
+            当你在新项目里第一次启动 Claude 时，运行 <code>/init</code> 命令。它会分析整个代码库并理解：
+          </p>
+          <ul>
+            <li>项目目标与架构</li>
+            <li>关键命令与核心文件</li>
+            <li>代码风格与模式</li>
+          </ul>
+          <img
+            src="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2Fa46l9irobhg0f5webscixp0bs%2Fpublic%2F1750967941%2F004_-_Adding_Context_05.1750967940882.png"
+            alt="init 输出"
+          />
+          <p>
+            分析完成后，Claude 会生成一份摘要并写入 <code>CLAUDE.md</code>。当 Claude 询问是否允许写入时，
+            你可以按 Enter 逐次确认，或按 Shift+Tab 让 Claude 在本次会话中自由写文件。
+          </p>
+
+          <h2>CLAUDE.md 文件</h2>
+          <p><code>CLAUDE.md</code> 有两个主要作用：</p>
+          <ul>
+            <li>引导 Claude 理解你的代码库：重要命令、架构、代码风格</li>
+            <li>允许你给 Claude 添加特定或自定义指令</li>
+          </ul>
+          <p>该文件会自动包含在每一次请求中，相当于项目级的持久系统提示词。</p>
+
+          <h2>CLAUDE.md 的位置</h2>
+          <p>Claude 识别以下三处常见位置的 <code>CLAUDE.md</code>：</p>
+          <img
+            src="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2Fa46l9irobhg0f5webscixp0bs%2Fpublic%2F1750967941%2F004_-_Adding_Context_09.1750967941793.png"
+            alt="CLAUDE.md 位置"
+          />
+          <ul>
+            <li><strong>CLAUDE.md</strong>：由 /init 生成，提交到仓库，与团队共享</li>
+            <li><strong>CLAUDE.local.md</strong>：个人专用，不与团队共享</li>
+            <li><strong>~/.claude/CLAUDE.md</strong>：全局文件，适用于本机所有项目</li>
+          </ul>
+
+          <h2>添加自定义指令</h2>
+          <p>你可以在 <code>CLAUDE.md</code> 中添加指令来调整 Claude 的行为。</p>
+          <p>使用 <code>#</code> 命令进入“记忆模式”，例如：</p>
+          <pre><code># Use comments sparingly. Only comment complex code.</code></pre>
+          <p>Claude 会自动将这条指令合并进 <code>CLAUDE.md</code>。</p>
+
+          <h2>使用 @ 提及文件</h2>
+          <p>
+            当你希望 Claude 查看某个文件时，可以用 <code>@</code> 加上路径。这样会自动把该文件内容加入请求。
+          </p>
+          <p>例如：</p>
+          <pre><code>How does the auth system work? @auth</code></pre>
+          <p>Claude 会列出相关文件供你选择，然后把选中的文件加入对话。</p>
+
+          <h2>在 CLAUDE.md 中引用文件</h2>
+          <p>你也可以在 <code>CLAUDE.md</code> 里用 <code>@</code> 直接引用文件。</p>
+          <p>比如数据库 schema 文件：</p>
+          <pre><code>The database schema is defined in the @prisma/schema.prisma file. Reference it anytime you need to understand the structure of data stored in the database.</code></pre>
+          <p>
+            这样一来，每次请求都会自动包含该文件内容，Claude 就不需要反复搜索与读取。
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer container">
+      下一节：<a href="07-making-changes.html">进行修改</a>
+    </footer>
+    </div>
+</div>
+<script src="nav-data.js"></script>
+<script src="sidebar.js"></script>
+<script src="nav.js"></script>
+</body>
+</html>
+

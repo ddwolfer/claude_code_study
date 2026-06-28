@@ -1,0 +1,80 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hooks 常见坑点 | Claude Code 实战课程</title>
+    <script src="head-meta.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="index.html">Claude Code 实战课程（中文）</a>
+        <span class="subtitle">第 16 节 · Hooks 常见坑点</span>
+      </div>
+    </header>
+
+<div class="layout">
+<aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+
+    <nav class="lesson-nav container"></nav>
+
+    <main class="container content">
+      <div class="content-card">
+        <h1>Hooks 常见坑点</h1>
+        <div class="lesson-meta">
+          原文链接：
+          <a href="https://anthropic.skilljar.com/claude-code-in-action/312423"
+            >https://anthropic.skilljar.com/claude-code-in-action/312423</a
+          >
+          <span class="tag">讲义</span>
+        </div>
+        <div class="content-body">
+          <p>
+            你可能注意到，在运行 <code>npm run dev</code> 后，<code>.claude</code> 目录里会出现两个
+            <code>settings.json</code> 文件。下面解释原因。
+          </p>
+          <p>Claude Code 文档对 Hook 安全有一些推荐：</p>
+          <img
+            src="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2Fa46l9irobhg0f5webscixp0bs%2Fpublic%2F1752683124%2FScreenshot+2025-07-16+at+10.25.07%E2%80%AFAM.1752683124012.png"
+            alt="Hooks 安全建议"
+          />
+          <p>
+            其中一条是：脚本尽量使用绝对路径，而不是相对路径。这样可以降低
+            <a href="https://attack.mitre.org/techniques/T1574/007/">路径拦截</a> 或
+            <a href="https://owasp.org/www-community/attacks/Binary_planting">二进制植入</a>
+            的风险。
+          </p>
+          <p>
+            但绝对路径也带来共享困难，因为你机器上的路径与其他人可能完全不同。
+          </p>
+          <p>
+            为了解决这个问题，项目提供了 <code>settings.example.json</code>。其中脚本路径使用
+            <code>$PWD</code> 占位符。运行 <code>npm run setup</code> 时，会执行 scripts 目录中的
+            <code>init-claude.js</code>：
+          </p>
+          <ul>
+            <li>将 <code>$PWD</code> 替换为本机项目的绝对路径</li>
+            <li>复制 <code>settings.example.json</code></li>
+            <li>重命名为 <code>settings.local.json</code></li>
+          </ul>
+          <p>
+            这样既能共享配置，又能满足使用绝对路径的安全建议。
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer container">
+      下一节：<a href="17-useful-hooks.html">实用的 Hooks</a>
+    </footer>
+    </div>
+</div>
+<script src="nav-data.js"></script>
+<script src="sidebar.js"></script>
+<script src="nav.js"></script>
+</body>
+</html>
+

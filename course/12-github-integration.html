@@ -1,0 +1,128 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GitHub 集成 | Claude Code 实战课程</title>
+    <script src="head-meta.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="index.html">Claude Code 实战课程（中文）</a>
+        <span class="subtitle">第 12 节 · GitHub 集成</span>
+      </div>
+    </header>
+
+<div class="layout">
+<aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+
+    <nav class="lesson-nav container"></nav>
+
+    <main class="container content">
+      <div class="content-card">
+        <h1>GitHub 集成</h1>
+        <div class="lesson-meta">
+          原文链接：
+          <a href="https://anthropic.skilljar.com/claude-code-in-action/303240"
+            >https://anthropic.skilljar.com/claude-code-in-action/303240</a
+          >
+          <span class="tag">视频 + 讲义</span>
+        </div>
+        <div class="content-body">
+          <p>
+            Claude Code 提供官方 GitHub 集成，让 Claude 在 GitHub Actions 中运行。主要有两个流程：在 Issue/PR 中
+            @Claude，以及自动 PR Review。
+          </p>
+
+          <h2>安装与配置</h2>
+          <p>在 Claude 中运行 <code>/install-github-app</code>，它会引导你完成：</p>
+          <ul>
+            <li>安装 Claude Code GitHub App</li>
+            <li>添加 API Key</li>
+            <li>自动生成包含工作流文件的 PR</li>
+          </ul>
+          <p>合并该 PR 后，<code>.github/workflows</code> 中会出现两个 Actions。</p>
+
+          <h2>默认的 GitHub Actions</h2>
+          <h3>Mention Action</h3>
+          <p>在 Issue 或 PR 中使用 <code>@claude</code>，Claude 将：</p>
+          <ul>
+            <li>分析任务并给出计划</li>
+            <li>以完整权限执行任务</li>
+            <li>在 Issue/PR 中回复结果</li>
+          </ul>
+
+          <h3>Pull Request Action</h3>
+          <p>每次创建 PR 时，Claude 会自动：</p>
+          <ul>
+            <li>审查改动</li>
+            <li>分析影响范围</li>
+            <li>发布详细评审报告</li>
+          </ul>
+
+          <h2>自定义工作流</h2>
+          <p>合并初始 PR 后，你可以按项目需要调整工作流。</p>
+
+          <h3>添加项目准备步骤</h3>
+          <pre><code>- name: Project Setup
+  run: |
+    npm run setup
+    npm run dev:daemon</code></pre>
+
+          <h3>添加自定义指令</h3>
+          <pre><code>custom_instructions: |
+  The project is already set up with all dependencies installed.
+  The server is already running at localhost:3000. Logs from it
+  are being written to logs.txt. If needed, you can query the
+  db with the 'sqlite3' cli. If needed, use the mcp__playwright
+  set of tools to launch a browser and interact with the app.</code></pre>
+
+          <h3>MCP 服务器配置</h3>
+          <pre><code>mcp_config: |
+  {
+    "mcpServers": {
+      "playwright": {
+        "command": "npx",
+        "args": [
+          "@playwright/mcp@latest",
+          "--allowed-origins",
+          "localhost:3000;cdn.tailwindcss.com;esm.sh"
+        ]
+      }
+    }
+  }</code></pre>
+
+          <h2>工具权限</h2>
+          <p>在 GitHub Actions 中必须明确列出允许的工具（尤其是 MCP 工具）：</p>
+          <pre><code>allowed_tools: "Bash(npm:*),Bash(sqlite3:*),mcp__playwright__browser_snapshot,mcp__playwright__browser_click,..."
+</code></pre>
+          <p>不同于本地环境，Actions 中没有快捷许可，必须逐项列出。</p>
+
+          <h2>最佳实践</h2>
+          <ul>
+            <li>从默认工作流开始，逐步定制</li>
+            <li>用自定义指令补充项目上下文</li>
+            <li>使用 MCP 时务必写清工具权限</li>
+            <li>先用简单任务验证工作流，再升级复杂任务</li>
+          </ul>
+          <p>
+            GitHub 集成让 Claude 从“开发助手”升级为团队中的自动化成员，可直接在 GitHub 流程里完成任务与评审。
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer container">
+      下一节：<a href="13-introducing-hooks.html">认识 Hooks</a>
+    </footer>
+    </div>
+</div>
+<script src="nav-data.js"></script>
+<script src="sidebar.js"></script>
+<script src="nav.js"></script>
+</body>
+</html>
+

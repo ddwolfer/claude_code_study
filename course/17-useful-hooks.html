@@ -1,0 +1,113 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>实用的 Hooks | Claude Code 实战课程</title>
+    <script src="head-meta.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="index.html">Claude Code 实战课程（中文）</a>
+        <span class="subtitle">第 17 节 · 实用的 Hooks</span>
+      </div>
+    </header>
+
+<div class="layout">
+<aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+
+    <nav class="lesson-nav container"></nav>
+
+    <main class="container content">
+      <div class="content-card">
+        <h1>实用的 Hooks</h1>
+        <div class="lesson-meta">
+          原文链接：
+          <a href="https://anthropic.skilljar.com/claude-code-in-action/312004"
+            >https://anthropic.skilljar.com/claude-code-in-action/312004</a
+          >
+          <span class="tag">视频 + 讲义</span>
+        </div>
+        <div class="content-body">
+          <p>
+            Claude Code 的 Hooks 能弥补 AI 协作中的常见问题，尤其在大型项目里效果明显。它们会在 Claude 修改代码时
+            自动执行，提供即时反馈并阻止常见错误。
+          </p>
+
+          <h2>TypeScript 类型检查 Hook</h2>
+          <p>
+            Claude 修改函数签名时，经常忘记更新所有调用点。例如为 <code>schema.ts</code> 中函数添加
+            <code>verbose</code> 参数后，<code>main.ts</code> 的调用还保持旧签名，导致类型错误。
+          </p>
+          <p>解决办法是使用 PostToolUse Hook，在每次编辑后运行 TypeScript 编译器：</p>
+          <ul>
+            <li>运行 <code>tsc --noEmit</code> 做类型检查</li>
+            <li>收集错误</li>
+            <li>将错误反馈给 Claude</li>
+            <li>提示 Claude 修复相关文件</li>
+          </ul>
+          <p>对于其他强类型语言，也可以使用类似的类型检查流程；弱类型语言则可改用自动化测试。</p>
+
+          <h2>防止重复查询的 Hook</h2>
+          <p>
+            在有大量数据库查询的项目中，Claude 有时会重复造轮子。例如你要求它“增加一个超过三天未处理订单的 Slack
+            提醒”，它可能重新写查询而不是复用 <code>getPendingOrders()</code>。
+          </p>
+          <p>
+            <img
+              src="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2Fa46l9irobhg0f5webscixp0bs%2Fpublic%2F1752618172%2F013_-_Useful_Hooks%21_09.1752618172075.png"
+              alt="查询重复问题"
+            />
+          </p>
+          <p>该 Hook 的思路是加入“二次审查”流程：</p>
+          <p>
+            <img
+              src="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2Fa46l9irobhg0f5webscixp0bs%2Fpublic%2F1752618172%2F013_-_Useful_Hooks%21_14.1752618172611.png"
+              alt="查询审查流程"
+            />
+          </p>
+          <ul>
+            <li>当 Claude 修改 <code>./queries</code> 目录下的文件时触发</li>
+            <li>程序化启动另一个 Claude Code 实例</li>
+            <li>让第二个实例检查是否已有相似查询</li>
+            <li>若发现重复，反馈给原 Claude</li>
+            <li>提示删除重复代码并复用现有实现</li>
+          </ul>
+
+          <h2>实现注意点</h2>
+          <p>TypeScript Hook 较轻量，速度快；查询重复 Hook 更消耗资源，因为它会启动额外 Claude 实例。</p>
+          <ul>
+            <li><strong>收益：</strong>减少重复代码，提升一致性</li>
+            <li><strong>成本：</strong>每次修改都要额外调用，耗时并消耗 API</li>
+            <li><strong>建议：</strong>只监控关键目录，避免过度开销</li>
+          </ul>
+          <p>
+            这些 Hook 使用 Claude 的 TypeScript SDK，通过编程方式让一个 Claude 去审查另一个 Claude 的输出。
+          </p>
+
+          <h2>可扩展思路</h2>
+          <ul>
+            <li>用编译器或 linter 输出做即时反馈</li>
+            <li>用独立 AI 实例做自动代码审查</li>
+            <li>重点监控高价值目录</li>
+            <li>权衡自动化收益与性能成本</li>
+          </ul>
+          <p>关键是找出你流程中的痛点，并用 Hook 自动解决。</p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer container">
+      下一节：<a href="18-another-useful-hook.html">另一个实用 Hook</a>
+    </footer>
+    </div>
+</div>
+<script src="nav-data.js"></script>
+<script src="sidebar.js"></script>
+<script src="nav.js"></script>
+</body>
+</html>
+

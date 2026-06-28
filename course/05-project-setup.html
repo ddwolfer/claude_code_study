@@ -1,0 +1,80 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>项目准备 | Claude Code 实战课程</title>
+    <script src="head-meta.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="index.html">Claude Code 实战课程（中文）</a>
+        <span class="subtitle">第 05 节 · 项目准备</span>
+      </div>
+    </header>
+
+<div class="layout">
+<aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+
+    <nav class="lesson-nav container"></nav>
+
+    <main class="container content">
+      <div class="content-card">
+        <h1>项目准备</h1>
+        <div class="lesson-meta">
+          原文链接：
+          <a href="https://anthropic.skilljar.com/claude-code-in-action/301615"
+            >https://anthropic.skilljar.com/claude-code-in-action/301615</a
+          >
+          <span class="tag">讲义</span>
+        </div>
+        <div class="content-body">
+          <p>有一个可以操作的项目，会让你在 Claude Code 中练习时更有意思。</p>
+          <p>
+            我准备了一个小项目供你探索，它就是前面视频里演示的 UI 生成应用。<strong>注意：</strong
+            >你不一定需要运行这个项目，如果你愿意，也可以用自己的代码库跟随课程。
+          </p>
+
+          <h2>准备步骤</h2>
+          <p>该项目需要一些基础设置：</p>
+          <ol>
+            <li>
+              确保本地安装了 Node.js。安装说明：
+              <a href="https://nodejs.org/en/download">https://nodejs.org/en/download</a>
+            </li>
+            <li>下载本节附带的 <code>uigen.zip</code> 并解压</li>
+            <li>在项目目录运行 <code>npm run setup</code>，安装依赖并初始化本地 SQLite 数据库</li>
+            <li>
+              <strong>可选：</strong>该项目使用 Anthropic API 调用 Claude 生成 UI 组件。
+              如果你想完整体验应用，需要提供 API Key（不提供也能生成静态假代码）。
+              <ol>
+                <li>
+                  在
+                  <a href="https://console.anthropic.com/"
+                    >https://console.anthropic.com/</a
+                  >
+                  获取 API Key
+                </li>
+                <li>将 API Key 写入 <code>.env</code> 文件</li>
+              </ol>
+            </li>
+            <li>运行 <code>npm run dev</code> 启动项目</li>
+          </ol>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer container">
+      下一节：<a href="06-adding-context.html">添加上下文</a>
+    </footer>
+    </div>
+</div>
+<script src="nav-data.js"></script>
+<script src="sidebar.js"></script>
+<script src="nav.js"></script>
+</body>
+</html>
+

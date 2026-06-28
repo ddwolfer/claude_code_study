@@ -1,0 +1,88 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Claude Code 安装与配置 | Claude Code 实战课程</title>
+    <script src="head-meta.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="index.html">Claude Code 实战课程（中文）</a>
+        <span class="subtitle">第 04 节 · Claude Code 安装与配置</span>
+      </div>
+    </header>
+
+<div class="layout">
+<aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+
+    <nav class="lesson-nav container"></nav>
+
+    <main class="container content">
+      <div class="content-card">
+        <h1>Claude Code 安装与配置</h1>
+        <div class="lesson-meta">
+          原文链接：
+          <a href="https://anthropic.skilljar.com/claude-code-in-action/301614"
+            >https://anthropic.skilljar.com/claude-code-in-action/301614</a
+          >
+          <span class="tag">讲义</span>
+        </div>
+        <div class="content-body">
+          <p><strong>准备开始在本地安装 Claude Code！</strong></p>
+          <p>
+            完整的安装说明请参考：
+            <a href="https://code.claude.com/docs/en/quickstart"
+              >https://code.claude.com/docs/en/quickstart</a
+            >
+          </p>
+          <p>简要步骤如下：</p>
+          <ol>
+            <li>
+              安装 Claude Code
+              <ol>
+                <li>macOS（Homebrew）：<code>brew install --cask claude-code</code></li>
+                <li>macOS / Linux / WSL：<code>curl -fsSL https://claude.ai/install.sh | bash</code></li>
+                <li>
+                  Windows CMD：
+                  <code>curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd</code>
+                </li>
+              </ol>
+            </li>
+            <li>
+              安装完成后，在终端运行 <code>claude</code>。首次运行会提示你进行认证。
+            </li>
+          </ol>
+          <p>如果你使用 AWS Bedrock 或 Google Cloud Vertex，还需要额外配置：</p>
+          <ul>
+            <li>
+              AWS Bedrock 说明：
+              <a href="https://code.claude.com/docs/en/amazon-bedrock"
+                >https://code.claude.com/docs/en/amazon-bedrock</a
+              >
+            </li>
+            <li>
+              Google Cloud Vertex 说明：
+              <a href="https://code.claude.com/docs/en/google-vertex-ai"
+                >https://code.claude.com/docs/en/google-vertex-ai</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer container">
+      下一节：<a href="05-project-setup.html">项目准备</a>
+    </footer>
+    </div>
+</div>
+<script src="nav-data.js"></script>
+<script src="sidebar.js"></script>
+<script src="nav.js"></script>
+</body>
+</html>
+

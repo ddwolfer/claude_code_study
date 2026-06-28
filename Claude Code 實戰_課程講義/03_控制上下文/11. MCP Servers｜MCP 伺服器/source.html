@@ -1,0 +1,121 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Claude Code 的 MCP 服务器 | Claude Code 实战课程</title>
+    <script src="head-meta.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="index.html">Claude Code 实战课程（中文）</a>
+        <span class="subtitle">第 11 节 · Claude Code 的 MCP 服务器</span>
+      </div>
+    </header>
+
+<div class="layout">
+<aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+
+    <nav class="lesson-nav container"></nav>
+
+    <main class="container content">
+      <div class="content-card">
+        <h1>Claude Code 的 MCP 服务器</h1>
+        <div class="lesson-meta">
+          原文链接：
+          <a href="https://anthropic.skilljar.com/claude-code-in-action/303239"
+            >https://anthropic.skilljar.com/claude-code-in-action/303239</a
+          >
+          <span class="tag">视频 + 讲义</span>
+        </div>
+        <div class="content-body">
+          <p>
+            你可以通过 MCP（Model Context Protocol）服务器扩展 Claude Code 的能力。MCP 服务器可以在本地或远程运行，
+            为 Claude 提供原本没有的新工具与新能力。
+          </p>
+          <p>
+            最常用的 MCP 服务器之一是 Playwright，它能让 Claude 控制浏览器，为 Web 开发流程带来巨大提升。
+          </p>
+
+          <h2>安装 Playwright MCP 服务器</h2>
+          <p>在终端运行以下命令（不要在 Claude Code 里运行）：</p>
+          <pre><code>claude mcp add playwright npx @playwright/mcp@latest</code></pre>
+          <p>该命令会：</p>
+          <ul>
+            <li>把 MCP 服务器命名为 <code>playwright</code></li>
+            <li>指定本地启动服务器的命令</li>
+          </ul>
+
+          <h2>权限管理</h2>
+          <p>
+            默认情况下 Claude 每次使用 MCP 工具都会请求权限。如果你不想频繁确认，可以在设置中预先允许：
+          </p>
+          <pre><code>{
+  "permissions": {
+    "allow": ["mcp__playwright"],
+    "deny": []
+  }
+}</code></pre>
+          <p>
+            注意 <code>mcp__playwright</code> 中有双下划线。这样 Claude 便可直接使用 Playwright 工具。
+          </p>
+
+          <h2>实战示例：提升组件生成质量</h2>
+          <p>Playwright 可以让 Claude 自动化以下流程：</p>
+          <ol>
+            <li>打开浏览器并进入你的应用</li>
+            <li>生成测试组件</li>
+            <li>分析视觉样式与代码质量</li>
+            <li>更新生成提示词</li>
+            <li>再次测试新提示词</li>
+          </ol>
+          <p>例如：</p>
+          <blockquote>
+            “访问 localhost:3000，生成一个基础组件，检查样式，然后更新
+            @src/lib/prompts/generation.tsx 里的提示词，让后续组件更好。”
+          </blockquote>
+          <p>
+            Claude 会用浏览器工具观察真实视觉结果，再改写提示词，让生成的设计更有创意与差异化。
+          </p>
+
+          <h2>收益与效果</h2>
+          <p>实践中，这种流程能显著提升生成质量，例如：</p>
+          <ul>
+            <li>从“紫蓝渐变 + 标准 Tailwind 结构”升级为更丰富的配色</li>
+            <li>暖色夕阳渐变（橙 → 粉 → 紫）</li>
+            <li>海洋深度主题（青绿 → 翡翠 → 青蓝）</li>
+            <li>非对称布局与重叠元素</li>
+            <li>更具创造性的留白与结构</li>
+          </ul>
+          <p>核心优势是：Claude 能看到真实视觉输出，而不是只盯着代码。</p>
+
+          <h2>探索更多 MCP 服务器</h2>
+          <p>Playwright 只是其中一个例子。MCP 生态还包括：</p>
+          <ul>
+            <li>数据库交互</li>
+            <li>API 测试与监控</li>
+            <li>文件系统操作</li>
+            <li>云服务集成</li>
+            <li>开发工具自动化</li>
+          </ul>
+          <p>
+            选择符合你需求的 MCP 服务器，可以让 Claude 从“代码助手”升级为“全流程开发伙伴”。
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer container">
+      下一节：<a href="12-github-integration.html">GitHub 集成</a>
+    </footer>
+    </div>
+</div>
+<script src="nav-data.js"></script>
+<script src="sidebar.js"></script>
+<script src="nav.js"></script>
+</body>
+</html>
+

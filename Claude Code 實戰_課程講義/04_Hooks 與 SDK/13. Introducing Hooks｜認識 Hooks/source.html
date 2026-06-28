@@ -1,0 +1,140 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>认识 Hooks | Claude Code 实战课程</title>
+    <script src="head-meta.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="index.html">Claude Code 实战课程（中文）</a>
+        <span class="subtitle">第 13 节 · 认识 Hooks</span>
+      </div>
+    </header>
+
+<div class="layout">
+<aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+
+    <nav class="lesson-nav container"></nav>
+
+    <main class="container content">
+      <div class="content-card">
+        <h1>认识 Hooks</h1>
+        <div class="lesson-meta">
+          原文链接：
+          <a href="https://anthropic.skilljar.com/claude-code-in-action/312000"
+            >https://anthropic.skilljar.com/claude-code-in-action/312000</a
+          >
+          <span class="tag">视频 + 讲义</span>
+        </div>
+        <div class="content-body">
+          <p>
+            Hooks 允许你在 Claude 使用工具前后运行自定义命令。它非常适合做自动化，比如在编辑后自动格式化代码、
+            运行测试，或阻止访问特定文件。
+          </p>
+
+          <h2>Hooks 如何工作</h2>
+          <p>
+            在常规流程中，Claude 接收你的问题，决定使用工具，然后 Claude Code 执行工具并把结果返回给模型。
+            Hooks 会插入到这个流程中，让你在工具执行前或后运行自己的逻辑。
+          </p>
+          <img
+            src="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2Fa46l9irobhg0f5webscixp0bs%2Fpublic%2F1752618158%2F010_-_Introducing_Hooks_06.1752618158162.png"
+            alt="Hooks 工作流程"
+          />
+
+          <p>Hooks 分为两类：</p>
+          <ul>
+            <li><strong>PreToolUse</strong>：在工具执行前触发</li>
+            <li><strong>PostToolUse</strong>：在工具执行后触发</li>
+          </ul>
+
+          <h2>Hooks 配置位置</h2>
+          <p>Hooks 写在 Claude 的设置文件中，可放在：</p>
+          <ul>
+            <li><strong>全局</strong>：<code>~/.claude/settings.json</code>（影响所有项目）</li>
+            <li><strong>项目级</strong>：<code>.claude/settings.json</code>（团队共享）</li>
+            <li><strong>项目级（不提交）</strong>：<code>.claude/settings.local.json</code>（个人配置）</li>
+          </ul>
+          <p>也可以在 Claude Code 内使用 <code>/hooks</code> 命令进行设置。</p>
+          <img
+            src="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2Fa46l9irobhg0f5webscixp0bs%2Fpublic%2F1752618158%2F010_-_Introducing_Hooks_07.1752618158600.png"
+            alt="Hooks 配置入口"
+          />
+          <p>配置结构大致如下：</p>
+          <img
+            src="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2Fa46l9irobhg0f5webscixp0bs%2Fpublic%2F1752618159%2F010_-_Introducing_Hooks_10.1752618159645.png"
+            alt="Hooks 配置结构"
+          />
+
+          <h2>PreToolUse 示例</h2>
+          <pre><code>"PreToolUse": [
+  {
+    "matcher": "Read",
+    "hooks": [
+      {
+        "type": "command",
+        "command": "node /home/hooks/read_hook.ts"
+      }
+    ]
+  }
+]</code></pre>
+          <p>该配置会在执行 Read 工具前运行指定命令，你可以：</p>
+          <ul>
+            <li>允许工具正常执行</li>
+            <li>阻止操作，并向 Claude 返回错误信息</li>
+          </ul>
+
+          <h2>PostToolUse 示例</h2>
+          <pre><code>"PostToolUse": [
+  {
+    "matcher": "Write|Edit|MultiEdit",
+    "hooks": [
+      {
+        "type": "command",
+        "command": "node /home/hooks/edit_hook.ts"
+      }
+    ]
+  }
+]</code></pre>
+          <p>PostToolUse 无法阻止工具执行，但可以：</p>
+          <ul>
+            <li>在编辑后自动运行格式化或测试</li>
+            <li>把额外反馈返回给 Claude</li>
+          </ul>
+          <img
+            src="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2Fa46l9irobhg0f5webscixp0bs%2Fpublic%2F1752618160%2F010_-_Introducing_Hooks_15.1752618160073.png"
+            alt="PostToolUse 反馈"
+          />
+
+          <h2>常见应用场景</h2>
+          <ul>
+            <li><strong>代码格式化</strong>：编辑后自动格式化</li>
+            <li><strong>自动测试</strong>：文件变更后运行测试</li>
+            <li><strong>访问控制</strong>：阻止读写敏感文件</li>
+            <li><strong>代码质量</strong>：跑 linter/类型检查并反馈</li>
+            <li><strong>日志记录</strong>：追踪 Claude 访问的文件</li>
+            <li><strong>规则校验</strong>：强制命名或编码规范</li>
+          </ul>
+          <p>
+            Hooks 能把你的工具和流程整合进 Claude Code。PreToolUse 给你控制权，PostToolUse 让你增强 Claude 的结果。
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer container">
+      下一节：<a href="14-defining-hooks.html">定义 Hooks</a>
+    </footer>
+    </div>
+</div>
+<script src="nav-data.js"></script>
+<script src="sidebar.js"></script>
+<script src="nav.js"></script>
+</body>
+</html>
+

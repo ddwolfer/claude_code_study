@@ -1,0 +1,95 @@
+=== ORPHANS (full) ===
+id: 1354d55b-b917-4300-9ef6-76415a8ff86d
+name: Scenario & Trade-off over Memorization
+type/trust: insight / principle
+content:
+學系統設計的心法 (study mindset):讀設計模式/技術時,重點放在「**什麼場景會用到 (when)**」與「**為什麼這樣選 (why / trade-off)**」,而不是死記架構圖 (memorizing diagrams)。
+
+理由:面試與真實設計都在考「取捨判斷」,不是背圖。記住一個方案解決什麼問題、代價是什麼,才能在新題目上遷移套用;死背的架構圖換個情境就失效。這條原則決定了本課每一課的入庫方式 —— 優先捕捉 trade-off 與適用場景。
+metadata: {"domain": "system-design", "lesson": "02-講義導讀", "section": "設計模式導讀 / How to study design patterns", "category": "fundamental"}
+---
+id: 9a03a048-d067-4915-a623-d870d82fe3d5
+name: Message Queue Capacity (Kafka)
+type/trust: observation / principle
+content:
+現代訊息佇列 (message queue, 如 Kafka) 的容量級別:
+- Throughput:每 broker ~1M 訊息/秒
+- Latency:1-5ms(同區域)
+- Message Size:1KB-10MB
+- Storage:單 broker 可達 50TB
+- Retention:數週到數月
+
+關鍵心智模型:因為 latency 能穩定在 5ms 內,MQ 不再只能做 async 背景處理,**可以直接用在 synchronous API 流程中**;加上近乎無限的保存能力,能取代許多傳統專用系統,成為資料流骨幹。使用時仍須處理重試 (retry)、超時 (timeout) 以確保可靠性。
+何時需要 Sharding:throughput 逼近 800k msgs/sec、partition count 逼近 200k、consumer lag 持續增加、或需跨區複寫。
+metadata: {"domain": "system-design", "lesson": "03-numbers-to-know", "section": "Message Queues 訊息佇列", "component": "message-queue", "sessions": []}
+---
+
+=== ALL NODE NAMES (for picking neighbors) ===
+- ACID Properties  [e5f797e3]
+- API Paradigms: REST vs GraphQL vs gRPC  [5919ac22]
+- API Security: Authentication vs Authorization  [78c9781f]
+- Application Server Capacity  [03bb6e05]
+- B-Tree / B+Tree Index  [8d99a971]
+- Blob Storage (Object Storage for Large Binaries)  [47824663]
+- CAP Theorem  [024b6786]
+- CDN (Content Delivery Network)  [cf2c4452]
+- Cache Capacity Numbers (Redis)  [f273d085]
+- Cache Eviction Policies (LRU/LFU/FIFO/TTL)  [f150e9ff]
+- Cache Patterns: Read axis vs Write axis  [37fbb7f9]
+- Cache Problems: Stampede / Consistency / Hot Key  [2991b33e]
+- Caching Fundamentals & Layers  [303a076e]
+- Choosing Consistency vs Availability (Default: Availability)  [8f145e3c]
+- Circuit Breaker  [c5a31844]
+- Client-Server Architecture  [6918c1b1]
+- Consistent Hashing  [ef97fbd0]
+- Cross-Shard Consistency: Avoid / Saga / Eventual  [672441dd]
+- Database Transaction  [4e10680a]
+- Deadlock  [6f912d55]
+- Distributed Transaction: 2PC vs Saga  [822b0ab4]
+- Don't Shard Prematurely  [ce888ba7]
+- Failover & Split Brain  [b5f78f23]
+- Geospatial Index  [2f39293b]
+- Hash Index  [55bcfd51]
+- High-Level Design Starting Order (Client→Server→API→DB→Scale)  [7bc40e4b]
+- Hot Spot & Celebrity Problem (Sharding)  [a7148bd0]
+- Idempotency  [60930818]
+- Inverted Index  [95a9da13]
+- Isolation Levels  [07c4a543]
+- L4 vs L7 Load Balancer  [a95c3368]
+- LSM Tree (Log-Structured Merge-Tree)  [82f33e58]
+- Leaderless Replication & Quorum  [4ab0fde8]
+- Load Balancing: Client-side vs Dedicated  [ae3e53ad]
+- Lost Update & Optimistic vs Pessimistic Locking  [87969aa2]
+- MVCC (Multi-Version Concurrency Control)  [b88d82b7]
+- Message Queue Capacity (Kafka)  [9a03a048]
+- Modern Bottleneck is Ops/sec & Bandwidth, not Memory  [c340a720]
+- Multi-Leader Replication & Conflict Resolution  [f3e90e67]
+- OSI Layers: Network (L3) / Transport (L4) / Application (L7)  [32b55380]
+- Partitioning vs Sharding vs Normalization  [ef0c9572]
+- Real-time Protocols: SSE vs WebSocket vs WebRTC  [358034ad]
+- Region vs Availability Zone (Cross-Region)  [67e8ad1a]
+- Regional Partitioning  [4ed5bdd6]
+- Replication  [054ba9c7]
+- Replication Lag Anomalies  [9e607eae]
+- Replication Log Implementations  [c0b7e42b]
+- SLA / SLO / SLI  [14d2a884]
+- SSL Termination & internal mTLS  [784ac554]
+- Scalability (Throughput vs Latency)  [69f5b174]
+- Scatter-Gather (Cross-Shard Query)  [ff473350]
+- Scenario & Trade-off over Memorization  [1354d55b]
+- Shard Key Selection (3 Criteria)  [8c0c718f]
+- Sharding (Horizontal Partitioning)  [1497e6c1]
+- Sharding Strategies: Range vs Hash vs Directory  [199bebdd]
+- Single Relational DB Capacity (PostgreSQL/MySQL/Aurora)  [e40b2da3]
+- Single-Leader Replication  [85d59e38]
+- Speed of Light Latency & Data Locality  [2f632306]
+- Stateless & Session Externalization (Sticky Session vs Redis)  [e36d542d]
+- Synchronous vs Asynchronous Replication  [75813c83]
+- System Design Interview Framework (4 Stages)  [0fa7932d]
+- TCP vs UDP  [4146b320]
+- Thin Client vs Thick Client  [8efcc18d]
+- Three Read Anomalies (Dirty / Non-repeatable / Phantom)  [b4ce25d6]
+- Timeouts, Retries with Backoff & Jitter  [0193a5ca]
+- Vertical vs Horizontal Scaling  [fbdb1641]
+- Virtual Nodes (Consistent Hashing)  [8fdfd83a]
+- Web Request Lifecycle (DNS, TCP Handshake, HTTP, Teardown)  [13361ba7]

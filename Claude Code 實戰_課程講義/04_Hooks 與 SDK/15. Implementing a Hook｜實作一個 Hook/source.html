@@ -1,0 +1,113 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>实现一个 Hook | Claude Code 实战课程</title>
+    <script src="head-meta.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="index.html">Claude Code 实战课程（中文）</a>
+        <span class="subtitle">第 15 节 · 实现一个 Hook</span>
+      </div>
+    </header>
+
+<div class="layout">
+<aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+
+    <nav class="lesson-nav container"></nav>
+
+    <main class="container content">
+      <div class="content-card">
+        <h1>实现一个 Hook</h1>
+        <div class="lesson-meta">
+          原文链接：
+          <a href="https://anthropic.skilljar.com/claude-code-in-action/312003"
+            >https://anthropic.skilljar.com/claude-code-in-action/312003</a
+          >
+          <span class="tag">视频 + 讲义</span>
+        </div>
+        <div class="content-body">
+          <p>
+            我们来构建一个 Hook，防止 Claude 读取敏感文件（例如 .env）。这是一个保护环境变量的典型场景。
+          </p>
+
+          <h2>配置 Hook</h2>
+          <p>
+            在 <code>.claude/settings.local.json</code> 中添加 PreToolUse Hook，用于在工具执行前拦截。
+          </p>
+          <p>配置的关键要素包括：</p>
+          <ul>
+            <li><strong>matcher</strong>：匹配触发的工具</li>
+            <li><strong>command</strong>：运行的脚本</li>
+          </ul>
+          <p>示例：</p>
+          <pre><code>"matcher": "Read|Grep"</code></pre>
+          <p>管道符 <code>|</code> 表示“或”，因此 Read 或 Grep 都会触发。</p>
+          <pre><code>"command": "node ./hooks/read_hook.js"</code></pre>
+
+          <h2>理解工具调用数据</h2>
+          <p>Hook 通过标准输入接收 JSON，其中包含：</p>
+          <ul>
+            <li>会话 ID 与 transcript 路径</li>
+            <li>Hook 事件名（PreToolUse）</li>
+            <li>工具名（Read、Grep 等）</li>
+            <li>工具输入（文件路径等）</li>
+          </ul>
+          <p>你的脚本读取 JSON 后，决定允许或阻止。</p>
+
+          <h2>实现 Hook 脚本</h2>
+          <p>核心逻辑如下：</p>
+          <pre><code>async function main() {
+  const chunks = [];
+  for await (const chunk of process.stdin) {
+    chunks.push(chunk);
+  }
+
+  const toolArgs = JSON.parse(Buffer.concat(chunks).toString());
+
+  // Extract the file path Claude is trying to read
+  const readPath =
+    toolArgs.tool_input?.file_path || toolArgs.tool_input?.path || "";
+
+  // Check if Claude is trying to read the .env file
+  if (readPath.includes('.env')) {
+    console.error("You cannot read the .env file");
+    process.exit(2);
+  }
+}</code></pre>
+          <p>当路径包含 .env 时，脚本写错误并以退出码 2 终止，Claude 会理解这是 Hook 的阻止。</p>
+
+          <h2>测试 Hook</h2>
+          <p>保存配置与脚本后，重启 Claude Code，再尝试让 Claude 读取 .env。</p>
+          <p>
+            Hook 会拦截并返回错误信息，Claude 会解释操作被 Hook 阻止。同理，如果 Claude 用 Grep 搜索 .env，也会被阻止。
+          </p>
+
+          <h2>收益</h2>
+          <ul>
+            <li><strong>主动防护</strong>：在敏感数据被读取前阻止</li>
+            <li><strong>透明可解释</strong>：Claude 会收到清晰的阻止原因</li>
+            <li><strong>灵活匹配</strong>：可覆盖多个工具与路径</li>
+            <li><strong>可扩展</strong>：适用于任意敏感文件/目录</li>
+          </ul>
+          <p>你可以在此基础上扩展更多规则，实现更精细的访问控制。</p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer container">
+      下一节：<a href="16-gotchas-around-hooks.html">Hooks 常见坑点</a>
+    </footer>
+    </div>
+</div>
+<script src="nav-data.js"></script>
+<script src="sidebar.js"></script>
+<script src="nav.js"></script>
+</body>
+</html>
+

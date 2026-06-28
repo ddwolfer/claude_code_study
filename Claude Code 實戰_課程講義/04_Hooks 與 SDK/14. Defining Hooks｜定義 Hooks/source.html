@@ -1,0 +1,109 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>定义 Hooks | Claude Code 实战课程</title>
+    <script src="head-meta.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="index.html">Claude Code 实战课程（中文）</a>
+        <span class="subtitle">第 14 节 · 定义 Hooks</span>
+      </div>
+    </header>
+
+<div class="layout">
+<aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+
+    <nav class="lesson-nav container"></nav>
+
+    <main class="container content">
+      <div class="content-card">
+        <h1>定义 Hooks</h1>
+        <div class="lesson-meta">
+          原文链接：
+          <a href="https://anthropic.skilljar.com/claude-code-in-action/312002"
+            >https://anthropic.skilljar.com/claude-code-in-action/312002</a
+          >
+          <span class="tag">视频 + 讲义</span>
+        </div>
+        <div class="content-body">
+          <p>
+            Hooks 让你在工具调用前后拦截并控制 Claude 的行为，从而对开发环境拥有更细粒度的掌控。
+          </p>
+
+          <h2>构建一个 Hook 的步骤</h2>
+          <img
+            src="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2Fa46l9irobhg0f5webscixp0bs%2Fpublic%2F1752618153%2F011_-_Defining_Hooks_05.1752618152864.png"
+            alt="Hook 构建步骤"
+          />
+          <ol>
+            <li><strong>选择 PreToolUse 或 PostToolUse</strong>：前者可阻止工具执行，后者只能在执行后处理</li>
+            <li><strong>确定要监控的工具类型</strong>：明确哪些工具触发 Hook</li>
+            <li><strong>编写接收工具调用的命令</strong>：通过标准输入获取 JSON 数据</li>
+            <li><strong>必要时向 Claude 反馈</strong>：用退出码控制允许/阻止</li>
+          </ol>
+
+          <h2>可用工具</h2>
+          <img
+            src="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2Fa46l9irobhg0f5webscixp0bs%2Fpublic%2F1752618153%2F011_-_Defining_Hooks_07.1752618153492.png"
+            alt="内置工具列表"
+          />
+          <p>
+            可用工具会随着 MCP 服务器变化，因此可直接让 Claude 列出当前工具列表以确认。
+          </p>
+
+          <h2>工具调用的数据结构</h2>
+          <img
+            src="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2Fa46l9irobhg0f5webscixp0bs%2Fpublic%2F1752618154%2F011_-_Defining_Hooks_11.1752618154320.png"
+            alt="工具调用数据结构"
+          />
+          <pre><code>{
+  "session_id": "2d6a1e4d-6...",
+  "transcript_path": "/Users/sg/...",
+  "hook_event_name": "PreToolUse",
+  "tool_name": "Read",
+  "tool_input": {
+    "file_path": "/code/queries/.env"
+  }
+}</code></pre>
+          <p>Hook 命令读取该 JSON，并决定是否允许当前工具调用。</p>
+
+          <h2>退出码与控制逻辑</h2>
+          <img
+            src="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2Fa46l9irobhg0f5webscixp0bs%2Fpublic%2F1752618154%2F011_-_Defining_Hooks_16.1752618154725.png"
+            alt="退出码说明"
+          />
+          <ul>
+            <li><strong>退出码 0</strong>：允许工具正常执行</li>
+            <li><strong>退出码 2</strong>：阻止工具执行（仅 PreToolUse 有效）</li>
+          </ul>
+          <p>如果你在 PreToolUse 中返回 2，写到标准错误的内容会被 Claude 当作反馈信息。</p>
+
+          <h2>常见示例</h2>
+          <p>
+            最常见的用途是阻止 Claude 读取敏感文件，例如 <code>.env</code>。因为 Read 和 Grep 都可能访问文件内容，
+            你需要同时监控这两个工具，并检测是否指向敏感路径。
+          </p>
+          <p>
+            这样既能保护文件系统，又能清晰告诉 Claude 为什么被拦截。
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer container">
+      下一节：<a href="15-implementing-a-hook.html">实现一个 Hook</a>
+    </footer>
+    </div>
+</div>
+<script src="nav-data.js"></script>
+<script src="sidebar.js"></script>
+<script src="nav.js"></script>
+</body>
+</html>
+
