@@ -544,7 +544,15 @@ function renderMarkdown(md, inline) {
   // term hydrator still sees the [[ ]] and the ZWSP is invisible to the reader.
   md = (md || "").replace(/\]\]\(/g, "]]​(");
   const dirty = inline ? marked.parseInline(md) : marked.parse(md);
-  return DOMPurify.sanitize(dirty, { ADD_ATTR: ["target"] });
+  const clean = DOMPurify.sanitize(dirty, { ADD_ATTR: ["target", "rel"] });
+  // External links must not navigate the SPA away — open in a new tab.
+  const box = document.createElement("div");
+  box.innerHTML = clean;
+  box.querySelectorAll('a[href^="http"]').forEach(a => {
+    a.setAttribute("target", "_blank");
+    a.setAttribute("rel", "noopener");
+  });
+  return box.innerHTML;
 }
 
 function extractGlossary(md) {
@@ -880,7 +888,7 @@ async function showCatalog(openChapter) {
 
   const hero = document.createElement("div");
   hero.className = "wel-hero";
-  hero.innerHTML = '<div class="kicker">COURSE INDEX /// 現代系統設計</div><h1>今天上哪一課?</h1>' +
+  hero.innerHTML = '<div class="kicker">COURSE INDEX /// Claude Code in Action</div><h1>今天上哪一課?</h1>' +
     '<p>點一課直接開始 — <span class="chip">⚡ 已預載</span> 秒開,其他課要先備課(幾分鐘)。</p>';
   wel.appendChild(hero);
 

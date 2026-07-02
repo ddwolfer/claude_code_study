@@ -2,6 +2,8 @@
 
 # 17. 實用的 [[hook|Hooks]]
 
+> 📎 **本課資源**:[skilljar 原版課程頁(影片在此觀看,需登入)](https://anthropic.skilljar.com/claude-code-in-action/312004)
+
 [[claude-code|Claude Code]] 的 [[hook|Hooks]] 機制能補上 AI 協作的常見痛點，尤其在大型專案中效果顯著。它們在 Claude 修改程式碼時**自動執行**，提供即時回饋並阻止常見錯誤的累積。
 
 ---
@@ -111,6 +113,12 @@ flowchart TD
 > **核心原則**：找出你工作流程的痛點，設計 [[hook|Hook]] 自動解決它。
 
 ---
+
+---
+
+## 🔍 本 repo 活實例
+
+課程的例子是 PostToolUse 跑 `tsc` 型別檢查;本專案 `kg/hooks/` 底下就是一整組「生產環境實用 hooks」:`auto-recall.js`(UserPromptSubmit:你每句話觸發知識召回)、`session-start.js`(開場載入記憶)、`post-compact.js`(壓縮後補記憶)。共通模式和本課相同——**hook 不只能「攔截」,更能「自動注入上下文」**,把重複的人工步驟變成零成本的自動化。
 
 ```glossary
 {

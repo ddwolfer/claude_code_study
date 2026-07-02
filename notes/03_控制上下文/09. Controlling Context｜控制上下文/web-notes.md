@@ -2,6 +2,8 @@
 
 # 09 · 控制上下文 (Controlling Context)
 
+> 📎 **本課資源**:[skilljar 原版課程頁(影片在此觀看,需登入)](https://anthropic.skilljar.com/claude-code-in-action/303237)
+
 處理複雜任務時，長對話容易累積大量無關資訊，讓 Claude 走偏或重複犯錯。本課介紹四種保持對話專注的實用技巧。
 
 ---

@@ -2,6 +2,8 @@
 
 # MCP 伺服器 — 擴充 Claude Code 的能力邊界
 
+> 📎 **本課資源**:[skilljar 原版課程頁(影片在此觀看,需登入)](https://anthropic.skilljar.com/claude-code-in-action/303239)
+
 [[mcp-server]] 讓你把 Claude Code 從「程式碼助手」升級為「全流程開發夥伴」。
 伺服器可在**本機**或**遠端**執行，為 Claude 注入原本沒有的新工具與新能力。
 
@@ -116,6 +118,26 @@ Claude 能**看到真實視覺輸出**，而不只是盯著程式碼——這是
 | 開發工具自動化 | GitHub MCP、Jira MCP |
 
 根據專案需求挑選合適的 [[mcp-server]]，即可讓 Claude Code 深度融入整個開發流程。
+
+---
+
+## 🔍 本 repo 活實例
+
+**你此刻就在三個 MCP server 裡面**。本專案根目錄的 `.mcp.json` 註冊了:
+
+| server | 程式進入點 | 提供的工具 |
+|---|---|---|
+| knowledge-graph | `kg/main.js` | store_knowledge、search_memory 等 13 個記憶工具 |
+| study-web | `study-web/server.js` | reply、show_notes(你眼前的聊天面板和講義面板) |
+| gemini-video | `mcp-gemini-video/server.js` | 讀 PDF/影片(本課程用不到,閒置) |
+
+`.mcp.json` 的寫法和課程講的完全一致——指定啟動命令即可:
+
+```json
+"study-web": { "command": "node", "args": ["study-web/server.js"] }
+```
+
+打開 `study-web/server.js` 看 `setRequestHandler(ListToolsRequestSchema, ...)` 那段,就是 MCP server 宣告工具的標準寫法。**教練每次在聊天面板回你話,就是在呼叫這個 server 的 reply 工具。**
 
 ```glossary
 {

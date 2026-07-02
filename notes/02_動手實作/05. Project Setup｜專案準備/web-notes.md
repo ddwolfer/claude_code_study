@@ -2,9 +2,11 @@
 
 # 05｜專案準備 (Project Setup)
 
+> 📎 **本課資源**:[skilljar 原版課程頁(影片在此觀看,需登入)](https://anthropic.skilljar.com/claude-code-in-action/301615)
+
 有一個可以動手操作的專案，會讓你在練習 [[claude-code]] 時更有感覺。
 
-課程提供了一個小型範例專案 **uigen**（UI 生成應用），就是前面影片裡展示的那個。你不一定要用它——如果你有自己的程式碼庫，也可以跟著課程用自己的專案練習。
+課程提供了一個小型範例專案 **uigen**（AI 生成 React UI 元件的網頁應用，第 02–03 課示範時操作的就是它）。你不一定要用它——如果你有自己的程式碼庫，也可以跟著課程用自己的專案練習。
 
 ---
 
@@ -12,7 +14,7 @@
 
 ```mermaid
 flowchart TD
-    A["安裝 Node.js"] --> B["下載並解壓 uigen.zip"]
+    A["安裝 Node.js"] --> B["取得 uigen 專案（git clone 或下載 zip）"]
     B --> C["執行 npm run setup"]
     C --> D{"想要完整體驗？"}
     D -- 是 --> E["取得 Anthropic API Key"]
@@ -30,7 +32,16 @@ flowchart TD
 
 ### 2. 取得範例專案
 
-下載本課附帶的 `uigen.zip`，解壓到你想要的目錄。
+> ⚠️ 原講義寫「下載本課附帶的 `uigen.zip`」——那個 zip 是 skilljar 課程平台的**附件**，掛在本課的原版頁面上（見上方「本課資源」連結，需登入）。這個學習專案的 repo 裡**沒有**這個 zip。
+
+兩種取得方式，擇一：
+
+- **方式 A（免登入，推薦）**：從 GitHub 社群鏡像 clone，例如
+  ```bash
+  git clone https://github.com/Abraham2748/uigen.git
+  ```
+  （這是課程學員上傳的鏡像，內容即課程附件的 uigen 專案。）
+- **方式 B（官方來源）**：登入 [skilljar 本課頁面](https://anthropic.skilljar.com/claude-code-in-action/301615)，下載附件 `uigen.zip` 解壓。
 
 ### 3. 安裝依賴並初始化資料庫
 

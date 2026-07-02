@@ -1,5 +1,7 @@
 # 06. 新增上下文（Adding Context）
 
+> 📎 **本課資源**:[skilljar 原版課程頁(影片在此觀看,需登入)](https://anthropic.skilljar.com/claude-code-in-action/303241)
+
 > 譯改寫自《Claude Code in Action》第 06 課
 
 ---

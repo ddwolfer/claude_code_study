@@ -2,6 +2,8 @@
 
 # 07. Making Changes｜進行修改
 
+> 📎 **本課資源**:[skilljar 原版課程頁(影片在此觀看,需登入)](https://anthropic.skilljar.com/claude-code-in-action/303236)
+
 在開發環境中使用 Claude 時,你經常需要對現有專案進行修改。本課介紹兩大實用技巧:用截圖進行精準溝通,以及善用 Claude 的高階推理能力提升修改品質。
 
 ---

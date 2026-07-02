@@ -2,6 +2,8 @@
 
 # 第 10 課｜自訂命令 Custom Commands
 
+> 📎 **本課資源**:[skilljar 原版課程頁(影片在此觀看,需登入)](https://anthropic.skilljar.com/claude-code-in-action/303234)
+
 Claude Code 內建了一批以斜線開頭的命令（如 `/clear`、`/help`），你也可以建立自己的 [[custom-command|自訂命令]]，把重複流程自動化成一個 [[slash-command|斜線命令]]。
 
 ---
@@ -94,6 +96,14 @@ flowchart LR
     C --> D["作為 prompt 發送給 Claude"]
     D --> E["Claude 執行流程"]
 ```
+
+---
+
+## 🔍 本 repo 活實例
+
+你現在用的這個學習專案**沒有** `.claude/commands/`(還沒需要),但有它的進化版——**skill**:`.claude/skills/study-web/SKILL.md` 定義了整套「網頁座艙教學流程」,教練說「上 X 課」時就是照它執行。skill 和自訂命令同一個精神:**把重複流程寫成 markdown,讓 Claude 照做**,skill 多了觸發描述與更長的操作手冊。
+
+**動手練習**:在本專案建一個 `.claude/commands/review-kg.md`,內容寫「列出知識圖譜中 R 值最低的 5 個節點並考我」,存檔後輸入 `/review-kg` 試試。
 
 ```glossary
 {

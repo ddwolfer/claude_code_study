@@ -2,6 +2,8 @@
 
 # 第 18 課：更多實用的 [[hook|Hook]] 類型
 
+> 📎 **本課資源**:[skilljar 原版課程頁(影片在此觀看,需登入)](https://anthropic.skilljar.com/claude-code-in-action/312427)
+
 ## Hook 全家桶
 
 除了 [[pre-tool-use|PreToolUse]] 和 [[post-tool-use|PostToolUse]]，Claude Code 還提供以下 [[hook|Hook]] 事件：
@@ -91,6 +93,20 @@ flowchart TD
 [[jq]] 的 `jq .` 指令會把 [[stdin|stdin]] 原樣格式化輸出，搭配 `>` 重導向存進 `post-log.json`。觀察這份 JSON 後，你就清楚知道有哪些欄位可用，再寫出穩定的 [[hook|Hook]] 腳本。
 
 > **技巧**：[[matcher|matcher]] 設為 `"*"` 可攔截所有工具；確認欄位結構後，再改成特定工具名稱（如 `"Bash"` 或 `"TodoWrite"`）。
+
+---
+
+## 🔍 本 repo 活實例
+
+本課講 Stop hook 和「每種 hook 的 stdin 結構不同」;本專案 `kg/hooks/web-reply-guard.mjs` 就是一個完整的 Stop hook:
+
+```js
+// web-reply-guard.mjs(節錄)
+if (data.stop_hook_active) process.exit(0);   // 防無限迴圈
+const transcriptPath = data.transcript_path;   // Stop hook 專屬欄位
+```
+
+它讀取 `transcript_path`(Stop 事件才有的欄位!)掃整份對話紀錄,檢查「最後一則座艙訊息」是否比「最後一次 reply」新——是,就擋下 stop,提醒教練回覆你。**你在座艙裡從不會被已讀不回,靠的就是它。**
 
 ```glossary
 {

@@ -2,6 +2,8 @@
 
 # 19. [[claude-code-sdk|Claude Code SDK]]
 
+> 📎 **本課資源**:[skilljar 原版課程頁(影片在此觀看,需登入)](https://anthropic.skilljar.com/claude-code-in-action/312001)
+
 [[claude-code-sdk]] 讓你可以在應用程式或腳本中，以程式化方式呼叫 Claude Code。
 它提供 [[typescript]]、Python 以及 CLI 三種介面，功能與在終端機直接使用的 Claude Code 完全一致，適合自動化與系統整合場景。
 
@@ -90,6 +92,26 @@ for await (const message of query({
 ## 小結
 
 [[claude-code-sdk]] 讓 Claude Code 的 AI 能力可以**嵌入任意開發環節**，是自動化與整合場景的強大基礎設施。搭配 [[allowed-tools]] 精確控制權限，既安全又靈活。
+
+---
+
+## 🔍 本 repo 活實例(注意方向相反)
+
+課程講的 Claude Code SDK 是「**從你的程式呼叫 Claude**」;本專案用的是它的鏡像——**MCP SDK**,「**給 Claude 加工具**」。對照著看最能釐清兩者:
+
+```js
+// study-web/server.js(節錄)— MCP SDK 建 server
+import { Server } from '@modelcontextprotocol/sdk/server/index.js'
+const mcp = new Server({ name: 'study-web', version: '0.1.0' }, ...)
+mcp.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: [{ name: 'reply', ... }] }))
+```
+
+| | Claude Code SDK(本課) | MCP SDK(本 repo) |
+|---|---|---|
+| 方向 | 你的程式 → 驅動 Claude | Claude → 呼叫你的工具 |
+| 場景 | CI 管線、批次自動化 | 擴充工具集(如本座艙的 reply) |
+
+兩者常常合用:SDK 起一個 headless Claude,再掛上你自己的 MCP server。
 
 ```glossary
 {

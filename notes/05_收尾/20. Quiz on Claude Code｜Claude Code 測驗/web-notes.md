@@ -2,6 +2,8 @@
 
 # 第 20 課：Claude Code 測驗
 
+> 📎 **本課資源**:[skilljar 原版課程頁(影片在此觀看,需登入)](https://anthropic.skilljar.com/claude-code-in-action/308391)
+
 這一課是**互動測驗**，原課程平台以線上問答形式呈現，無法以靜態頁面重現。
 
 ## 這堂課在做什麼？
@@ -17,17 +19,14 @@
 
 ## 如何完成測驗？
 
-請前往原課程平台連結參與互動測驗：
+兩種方式，可以都做：
 
-```
-https://anthropic.skilljar.com/claude-code-in-action/308391
-```
-
-（需登入 Anthropic 帳號）
+- **在本座艙考（推薦先做）**：直接在右側聊天面板跟教練說「**開始測驗**」，教練會不看筆記出 5–8 題涵蓋全課程的綜合題，逐題批改、答錯的帶你回對應講義複習。
+- **官方互動測驗**：前往 [skilljar 本課頁面](https://anthropic.skilljar.com/claude-code-in-action/308391)（需登入 Anthropic 帳號）作答原版線上測驗。
 
 ## 複習提示
 
-若想在此複習，可以自問以下幾題：
+若想先自己暖身，可以自問以下幾題：
 
 1. `CLAUDE.md` 放在哪幾個位置？優先順序為何？
 2. Hook 的 `PreToolUse` 與 `PostToolUse` 分別在什麼時機觸發？若 `PreToolUse` 回傳非零，會發生什麼？

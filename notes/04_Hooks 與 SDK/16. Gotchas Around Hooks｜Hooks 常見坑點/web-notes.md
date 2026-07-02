@@ -2,6 +2,8 @@
 
 # 16. Hooks 常見坑點 (Gotchas Around Hooks)
 
+> 📎 **本課資源**:[skilljar 原版課程頁(影片在此觀看,需登入)](https://anthropic.skilljar.com/claude-code-in-action/312423)
+
 ---
 
 ## 為什麼 `.claude/` 裡會有兩個 `settings.json`？
@@ -68,6 +70,15 @@ flowchart LR
 ## 小結
 
 這課的核心坑點只有一個：**[[hook]] 腳本絕對路徑難以共享**。解法是用 `$PWD` 佔位符 + 本機 setup 腳本自動替換，讓安全性和協作都兼顧。
+
+---
+
+## 🔍 本 repo 活實例
+
+本課講的坑,這個專案全都踩過並修好了,證據就在檔案裡:
+
+- **路徑可分享性**:`.claude/settings.json` 的 hook 命令全用**相對路徑**(`node kg/hooks/session-start.js "claude-code.db"`),沒有寫死磁碟機代號——因為使用者常在 Windows 和 MacBook 之間切換,絕對路徑一 clone 就爆。
+- **另一個課程沒講的坑——Stop hook 無限迴圈**:`kg/hooks/web-reply-guard.mjs` 開頭就檢查 `data.stop_hook_active`,是 hook 觸發的續跑就直接放行;不加這行,Stop hook 擋下 stop → Claude 續跑 → 又想 stop → 又被擋,永遠停不下來。
 
 ```glossary
 {

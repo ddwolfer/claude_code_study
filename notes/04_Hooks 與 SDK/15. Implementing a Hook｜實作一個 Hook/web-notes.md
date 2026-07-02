@@ -2,6 +2,8 @@
 
 # 第 15 課：實作一個 Hook
 
+> 📎 **本課資源**:[skilljar 原版課程頁(影片在此觀看,需登入)](https://anthropic.skilljar.com/claude-code-in-action/312003)
+
 本課以「防止 Claude 讀取敏感檔案（如 `.env`）」為範例，從頭示範如何撰寫並掛載一個 [[hook]]。
 
 ---
@@ -146,6 +148,18 @@ if (BLOCKED_PATTERNS.some((p) => readPath.includes(p))) {
 ```
 
 這樣就能一次保護多個敏感路徑。
+
+---
+
+## 🔍 本 repo 活實例
+
+課程範例是「PreToolUse 擋 `.env` 讀取」;本專案 `kg/hooks/search-enforcer.js` 是同一個骨架的變體——**擋的不是讀敏感檔,而是「還沒 search_memory 就想寫入知識圖譜」**:
+
+1. 從 stdin 讀 JSON、解析 `tool_name`
+2. 若是寫入類工具且本 session 還沒搜尋過 → 非零退出碼 + stderr 說明原因
+3. Claude 收到訊息,先去搜尋再回來寫
+
+讀完本課後打開它對照:設定在 `.claude/settings.json` 的 `PreToolUse` 區塊,實作約 100 行。
 
 ```glossary
 {

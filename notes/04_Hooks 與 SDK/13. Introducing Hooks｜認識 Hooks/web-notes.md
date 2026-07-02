@@ -2,6 +2,8 @@
 
 # 認識 Hooks — 讓 Claude Code 在工具執行前後插入你的邏輯
 
+> 📎 **本課資源**:[skilljar 原版課程頁(影片在此觀看,需登入)](https://anthropic.skilljar.com/claude-code-in-action/312000)
+
 [[hook]] 讓你在 Claude 使用工具的前後，執行自訂命令。常見用途：編輯後自動格式化、自動跑測試、阻止存取敏感檔案。
 
 ---
@@ -104,6 +106,22 @@ Hook 設定寫在 `settings.json`，有三個層級：
 ## 小結
 
 [[pre-tool-use]] 給你**控制權**（可以擋住不想讓 Claude 做的操作）；[[post-tool-use]] 讓你**強化結果**（自動化後續處理並把反饋送回 Claude）。兩者合用，能把你的工具鏈無縫整合進 Claude Code 的工作流程。
+
+---
+
+## 🔍 本 repo 活實例
+
+本專案的 `.claude/settings.json` 掛了 **5 個真實運作中的 hook**,正好覆蓋多種事件類型:
+
+| 事件 | hook 檔案 | 做什麼 |
+|---|---|---|
+| SessionStart (startup) | `kg/hooks/session-start.js` | 開場自動載入知識圖譜狀態 |
+| SessionStart (compact) | `kg/hooks/post-compact.js` | 上下文壓縮後補回關鍵記憶 |
+| UserPromptSubmit | `kg/hooks/auto-recall.js` | 你每送一句話,自動召回相關知識 |
+| PreToolUse | `kg/hooks/search-enforcer.js` | 寫入 KG 前強制先搜尋(防重複) |
+| Stop | `kg/hooks/web-reply-guard.mjs` | 教練想結束回合時,檢查是否忘了回覆座艙 |
+
+上完 L13–18 後回來逐個打開對照,課程講的每個概念這裡都有可跑的實體。
 
 ```glossary
 {

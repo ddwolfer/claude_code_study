@@ -2,6 +2,8 @@
 
 # GitHub 整合
 
+> 📎 **本課資源**:[skilljar 原版課程頁(影片在此觀看,需登入)](https://anthropic.skilljar.com/claude-code-in-action/303240)
+
 [[github-integration]] 讓 Claude Code 從「本機開發助手」升級成**團隊自動化成員**，直接在 GitHub 流程裡完成任務與程式碼審查。
 
 ---

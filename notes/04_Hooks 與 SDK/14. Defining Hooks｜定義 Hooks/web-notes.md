@@ -1,5 +1,9 @@
 > 譯改寫自《Claude Code in Action》第 14 課
 
+# 14. 定義 Hooks (Defining Hooks)
+
+> 📎 **本課資源**:[skilljar 原版課程頁(影片在此觀看,需登入)](https://anthropic.skilljar.com/claude-code-in-action/312002)
+
 [[hook|Hook]] 讓你在工具呼叫前後攔截並控制 Claude 的行為，對開發環境擁有更細粒度的掌控。
 
 ---
@@ -84,6 +88,23 @@ Hook 命令讀取此 JSON 後，決定是否允許當前工具呼叫繼續執行
 # 3. 若路徑包含 .env → 印出原因到 stderr，exit 2
 # 4. 否則 exit 0（允許繼續）
 ```
+
+---
+
+## 🔍 本 repo 活實例
+
+本課講的「從 stdin 讀 JSON → 看 tool_name → 決定放行或攔截」,本專案 `kg/hooks/search-enforcer.js`(PreToolUse)一模一樣地做了一遍:
+
+```js
+// kg/hooks/search-enforcer.js(節錄)
+let input = '';
+for await (const chunk of process.stdin) input += chunk;
+const data = JSON.parse(input);
+const toolName = data.tool_name || '';
+const sessionId = data.session_id || '';
+```
+
+它還多做了一層課程沒講的防呆:**連續攔截 3 次就自動放行**(circuit breaker),避免 hook 把整個 session 鎖死——寫自己的 PreToolUse 時很值得抄。
 
 ```glossary
 {

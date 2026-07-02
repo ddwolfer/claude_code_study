@@ -2,6 +2,8 @@
 
 # 04. Claude Code 安裝與配置
 
+> 📎 **本課資源**:[skilljar 原版課程頁(影片在此觀看,需登入)](https://anthropic.skilljar.com/claude-code-in-action/301614)
+
 本課是純動手安裝課,重點在本地環境準備。完整官方說明見：
 [https://code.claude.com/docs/en/quickstart](https://code.claude.com/docs/en/quickstart)
 
