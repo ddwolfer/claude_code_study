@@ -135,7 +135,13 @@
   button.icon:hover { border-color: var(--lamp-dim); }
 
   /* ================= layout ================= */
-  main { flex: 1; min-height: 0; display: grid; grid-template-columns: 64px 1.62fr 1fr; }
+  main { flex: 1; min-height: 0; display: grid; grid-template-columns: 64px 1.62fr 1fr; transition: grid-template-columns .28s ease; }
+  /* chat panel width — 3-state cycle via #chatw button (default → wide-read → hidden) */
+  body[data-chatw="wide"] main { grid-template-columns: 64px 3fr 1fr; }
+  body[data-chatw="hidden"] main { grid-template-columns: 64px 1fr 0; }
+  body[data-chatw="hidden"] #chat { overflow: hidden; }
+  #chatw { padding: 4px 9px; display: inline-grid; place-items: center; }
+  #chatw svg { display: block; }
   section { min-width: 0; min-height: 0; display: flex; flex-direction: column; }
 
   /* —— 章節導航欄 —— */
@@ -407,6 +413,7 @@
   <span id="crumb">尚未開課 — 從左邊目錄挑一課</span>
   <span class="spacer"></span>
   <span class="pill"><span class="pulse" id="dot"></span><span id="status">連線中…</span></span>
+  <button class="icon" id="chatw" title="聊天視窗寬度"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><line x1="15" y1="5" x2="15" y2="19"/></svg></button>
   <button class="icon" id="theme" title="切換深淺色">☀ / ☾</button>
 </header>
 
@@ -481,6 +488,33 @@ $("theme").onclick = () => {
   document.documentElement.dataset.theme = next;
   localStorage.setItem("sw-theme", next);
   mermaid.initialize(mermaidConfig());
+};
+
+// ---------- chat panel width (3-state cycle: default → wide-read → hidden) ----------
+const CHATW = ["default", "wide", "hidden"];
+const CHATW_TITLE = {
+  default: "聊天:標準(點一下 → 加寬閱讀區)",
+  wide: "聊天:窄(點一下 → 收起聊天)",
+  hidden: "聊天:已收起(點一下 → 回標準)",
+};
+function applyChatw(mode) {
+  if (!CHATW.includes(mode)) mode = "default";
+  document.body.dataset.chatw = mode;
+  const btn = $("chatw");
+  if (!btn) return;
+  btn.title = CHATW_TITLE[mode];
+  const line = btn.querySelector("svg line");
+  if (line) {
+    const x = mode === "wide" ? 18.5 : mode === "hidden" ? 21 : 15;
+    line.setAttribute("x1", x); line.setAttribute("x2", x);
+    line.style.opacity = mode === "hidden" ? "0" : "1";
+  }
+}
+applyChatw(localStorage.getItem("sw-chatw") || "default");
+$("chatw").onclick = () => {
+  const next = CHATW[(CHATW.indexOf(document.body.dataset.chatw || "default") + 1) % CHATW.length];
+  applyChatw(next);
+  localStorage.setItem("sw-chatw", next);
 };
 
 marked.setOptions({ gfm: true, breaks: true });
