@@ -242,6 +242,21 @@
   .term:hover, .term:focus { background-color: var(--lamp-glow); box-shadow: 0 0 14px rgba(240,179,94,.18); outline: none; }
 
   /* —— 影片播放器 (ch07 影片實作課) —— */
+  /* ---- 講義底部 上一課/下一課 footer nav ---- */
+  .doc-nav { max-width: 780px; margin: 42px auto 6px; display: flex; gap: 12px; }
+  .doc-nav button {
+    flex: 1; min-width: 0; text-align: left; cursor: pointer;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    padding: 12px 16px; color: var(--ink); font: 14px var(--sans); transition: border-color .15s;
+  }
+  .doc-nav button:hover { border-color: var(--lamp-dim); }
+  .doc-nav button.nx { text-align: right; }
+  .doc-nav .lab { display: block; font: 11px var(--mono); color: var(--muted); letter-spacing: .5px; margin-bottom: 4px; }
+  .doc-nav .ttl { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .doc-nav .chp { display: block; font: 11px var(--mono); color: var(--muted); margin-top: 3px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .doc-nav .ph { flex: 1; visibility: hidden; }
+
   #video-panel { margin: 0 0 26px; }
   #video-panel video {
     width: 100%; max-height: 62vh; border-radius: 14px; border: 1px solid var(--line);
@@ -689,7 +704,50 @@ function renderNotes(markdown, lesson) {
   hydrateMermaid(doc);
   hydrateTerms(doc);
   mountVideo(doc, lastLesson);
+  mountDocNav(doc);
   notes.scrollTop = 0;
+}
+
+// ---------- 講義底部 上一課/下一課 ----------
+// Appends a prev/next footer to the rendered doc. Lazy on CATALOG: a snapshot
+// restore can render notes before /api/lessons returns, so fetch-then-mount
+// (guarded by doc.isConnected like mountVideo, so a fast lesson switch is safe).
+function mountDocNav(doc) {
+  const mount = () => {
+    if (!doc.isConnected) return;
+    const pos = lessonPos();
+    if (!pos) return;
+    const { flat, i } = pos;
+    const prev = flat[i - 1] || null, next = flat[i + 1] || null;
+    if (!prev && !next) return;
+    const nav = document.createElement("div");
+    nav.className = "doc-nav";
+    const mk = (t, dir) => {
+      const b = document.createElement("button");
+      b.type = "button"; b.className = dir > 0 ? "nx" : "pv";
+      const lab = document.createElement("span");
+      lab.className = "lab";
+      lab.textContent = dir > 0 ? "下一課 →" : "← 上一課";
+      const ttl = document.createElement("span");
+      ttl.className = "ttl";
+      ttl.textContent = (t.l.cached ? "⚡ " : "") + t.l.name;
+      b.append(lab, ttl);
+      if (t.chapter !== flat[i].chapter) {           // 跨章 → 標示章名
+        const chp = document.createElement("span");
+        chp.className = "chp";
+        chp.textContent = t.chapter.replace(/^\d+_/, "");
+        b.appendChild(chp);
+      }
+      b.onclick = () => openLesson(t);
+      return b;
+    };
+    const ph = () => { const s = document.createElement("span"); s.className = "ph"; return s; };
+    nav.appendChild(prev ? mk(prev, -1) : ph());
+    nav.appendChild(next ? mk(next, 1) : ph());
+    doc.appendChild(nav);
+  };
+  if (CATALOG.length) mount();
+  else fetchCatalog().then(mount);
 }
 
 // ---------- video panel (ch07 影片實作課) ----------
@@ -1021,27 +1079,28 @@ fetchCatalog().then(() => { if (!notesShown) showCatalog(); });
 connect();
 
 // ---------- quickies ----------
-function findNextLesson() {
+// 目前這課在攤平目錄裡的位置:{flat:[{chapter,l}], i} 或 null(還沒開課/找不到)
+function lessonPos() {
   const cur = String(lastLesson || "");
   if (!cur || !CATALOG.length) return null;
-  for (let ci = 0; ci < CATALOG.length; ci++) {
-    const ch = CATALOG[ci];
-    for (let li = 0; li < ch.lessons.length; li++) {
-      if (cur.includes(ch.lessons[li].name)) {
-        if (li + 1 < ch.lessons.length) return { chapter: ch.name, l: ch.lessons[li + 1] };
-        if (ci + 1 < CATALOG.length && CATALOG[ci + 1].lessons.length)
-          return { chapter: CATALOG[ci + 1].name, l: CATALOG[ci + 1].lessons[0] };
-        return null;
-      }
-    }
-  }
-  return null;
+  const flat = [];
+  for (const ch of CATALOG) for (const l of ch.lessons) flat.push({ chapter: ch.name, l });
+  const i = flat.findIndex(e => cur.includes(e.l.name));
+  return i < 0 ? null : { flat, i };
+}
+function findNextLesson() {
+  const pos = lessonPos();
+  return (pos && pos.flat[pos.i + 1]) || null;
+}
+// 開一課:⚡有快取 → 零 token 直載;沒有 → 請教練備課
+function openLesson(t) {
+  if (t.l.cached) openCachedLesson(t.chapter, t.l.name);
+  else sendText("上 " + t.chapter + "/" + t.l.name);
 }
 $("qNext").onclick = () => {
   const next = findNextLesson();
   if (!next) { showCatalog(); return; }     // 還沒開課/找不到 → 開目錄挑
-  if (next.l.cached) openCachedLesson(next.chapter, next.l.name);
-  else sendText("上 " + next.chapter + "/" + next.l.name);
+  openLesson(next);
 };
 $("qPreload").onclick = () => sendText("預載接下來兩課(只寫快取,不用 show_notes)");
 $("qQuiz").onclick = () => sendText("不看筆記,考我 3 題目前這課的重點(active recall),我答完再給更正");
